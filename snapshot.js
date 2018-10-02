@@ -74,7 +74,6 @@ class Snapshot {
     log(' Done.');
   }
   list() {
-    // /^snapshot\-/s.test(l)
     return fs
       .readdirSync(SETTINGS.SNAPSHOT_SAVE_PATH)
       .filter(l => new RegExp(`^${SETTINGS.SNAPSHOT_SAVE_PREFIX}`, 's').test(l))
