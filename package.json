@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "rimraf": "^2.6.2",
+    "snoowrap": "^1.15.2",
     "storm-extract": "^1.0.3",
     "sync-request": "^6.0.0"
   },

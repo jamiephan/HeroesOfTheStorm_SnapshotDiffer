@@ -1,0 +1,23 @@
+#\[Test\] Files Diff between Build {{NewBuild}} \< \-\- \> Build {{OldBuild}}.
+
+##List of generated files:
+
+ - File diff of **{{exts}}**: [{{diffLink}}]({{diffLink}})
+
+ - Extra files: [{{extraLink}}]({{extraLink}})
+
+ - Removed files: [{{removedLink}}]({{removedLink}})
+
+---
+
+##What is this?
+
+/u/heroesdiff is a bot that compare the files count and some contents between each Heroes of the Storm patch. This bot is mainly for **data mining enthusiast**, **hackers** ^(1) and so on.
+
+If you never heard of anything about stuff like **CASC** or **MPQ**, you probably can ignore this post.
+
+^(1: hackers as in positive term, that finds out how certain interaction, etc, works base on logic and evidence.)
+
+---
+
+^(I am a bot. Please contact /u/jamiephan if I am going crazy, misinformed or you just hate/love me.) [^Messy ^Source ^Code](https://github.com/jamiephan/HeroesSnapshotDiffer)^. 

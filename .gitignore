@@ -71,3 +71,7 @@ typings/
 
 # Serverless directories
 .serverless
+
+#Generated Folders
+_difftemp/
+uselesstest/
