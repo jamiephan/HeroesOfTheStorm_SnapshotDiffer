@@ -4,12 +4,12 @@
 
 ## TODO:
 
-- <input type="checkbox" name="TODO6"><label for="TODO6"><b>Better Error Handling and checks.</b></label>
-- <input type="checkbox" name="TODO1"><label for="TODO1">Add support to compare specific builds, rather just new one.</label>
-- <input type="checkbox" name="TODO2"><label for="TODO2">Restructure the whole project that allow to get required by other projects.</label>
-- <input type="checkbox" name="TODO3"><label for="TODO3">Change all the functions and stuff to async/promise.</label>
-- <input type="checkbox" name="TODO4"><label for="TODO4">Add Babel to transpile ES6 to ES5 for older Nodejs versions.</label>
-- <input type="checkbox" name="TODO5"><label for="TODO5">Compare file counts and list as well (different list of files).</label>
+- [] <b>Better Error Handling and checks.</b></label>
+- [] Add support to compare specific builds, rather just new one.</label>
+- [] Restructure the whole project that allow to get required by other projects.</label>
+- [] Change all the functions and stuff to async/promise.</label>
+- [] Add Babel to transpile ES6 to ES5 for older Nodejs versions.</label>
+- [] Compare file counts and list as well (different list of files).</label>
 
 # Prerequisite
 
