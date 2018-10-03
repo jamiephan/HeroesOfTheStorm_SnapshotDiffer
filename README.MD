@@ -4,12 +4,12 @@
 
 ## TODO:
 
-- [] <b>Better Error Handling and checks.</b></label>
-- [] Add support to compare specific builds, rather just new one.</label>
-- [] Restructure the whole project that allow to get required by other projects.</label>
-- [] Change all the functions and stuff to async/promise.</label>
-- [] Add Babel to transpile ES6 to ES5 for older Nodejs versions.</label>
-- [] Compare file counts and list as well (different list of files).</label>
+- [ ] <b>Better Error Handling and checks.</b></label>
+- [ ] Add support to compare specific builds, rather just new one.</label>
+- [ ] Restructure the whole project that allow to get required by other projects.</label>
+- [ ] Change all the functions and stuff to async/promise.</label>
+- [ ] Add Babel to transpile ES6 to ES5 for older Nodejs versions.</label>
+- [ ] Compare file counts and list as well (different list of files).</label>
 
 # Prerequisite
 
