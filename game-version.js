@@ -27,7 +27,7 @@ class GameVersion {
       .split('\n')[1]
       .split('|')[12];
     return {
-      Version, //This is not reliable
+      Version, //This is not reliable but whatever
       BuildID: parseInt(BuildID),
     };
   }

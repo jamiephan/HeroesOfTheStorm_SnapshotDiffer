@@ -1,13 +1,9 @@
-#\[Test\] Files Diff between Build {{NewBuild}} \< \-\- \> Build {{OldBuild}}.
+#\[Test\] Files Diff between v{{NewVersion}} (Build {{NewBuild}}) \< \- \- \> v{{OldVersion}} (Build {{OldBuild}}).
 
 ##List of generated files:
 
  - File diff of **{{exts}}**: [{{diffLink}}]({{diffLink}})
-
- - Extra files: [{{extraLink}}]({{extraLink}})
-
- - Removed files: [{{removedLink}}]({{removedLink}})
-
+ 
 ---
 
 ##What is this?

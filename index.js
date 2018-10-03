@@ -1,11 +1,10 @@
-const stormExtract = require('storm-extract');
 const fs = require('fs');
-const rimraf = require('rimraf');
-const exec = require('child_process').exec;
+const exec = require('child_process').execSync;
 const SETTINGS = require('./settings');
 const Snapshot = require('./snapshot');
 const GameVersion = require('./game-version');
 const Reddit = require('./post-reddit');
+const Gett = require('./post-gett');
 
 const snapshot = new Snapshot();
 const gameversion = new GameVersion();
@@ -13,6 +12,9 @@ const gameversion = new GameVersion();
 // Create folder if not exist
 if (!fs.existsSync(SETTINGS.SNAPSHOT_SAVE_PATH)) {
   fs.mkdirSync(SETTINGS.SNAPSHOT_SAVE_PATH);
+}
+if (!fs.existsSync(SETTINGS.DIFF_RESULTS_SAVE_PATH)) {
+  fs.mkdirSync(SETTINGS.DIFF_RESULTS_SAVE_PATH);
 }
 
 console.log('');
@@ -57,7 +59,9 @@ if (parseInt(gameversion.installed.BuildID) == snapshots[0] && snapshots.length 
 }
 
 const OldBuild = snapshot.latestWithout(gameversion.installed.BuildID);
+const OldVersion = snapshot.latestWithout(gameversion.installed.Version);
 const NewBuild = gameversion.installed.BuildID;
+const NewVersion = gameversion.installed.Version;
 
 console.log(`Comparing diff to previous snapshot version ${OldBuild}`);
 
@@ -71,38 +75,39 @@ const filename = SETTINGS.DIFF_RESULTS_FILENAME_TEMPLATE.replace('{{NewBuild}}',
 if (fs.existsSync(SETTINGS.DIFF_RESULTS_SAVE_PATH + '/' + filename)) {
   fs.unlinkSync(SETTINGS.DIFF_RESULTS_SAVE_PATH + '/' + filename);
   console.log(`Deleted Existing ${filename} file`);
+  console.log('================================');
 }
-// console.log(
-//   `>diff -r --ignore-file-name-case ${diffpath}/snapshot-${previousLatestBuild} ${diffpath}/snapshot-${installedBuildID} >> ${fs.realpathSync(
-//     __dirname + '/'
-//   )}/diff_${installedBuildID}_${previousLatestBuild}.txt`
-// );
-// exec(
-//   `diff -r --ignore-file-name-case ${diffpath}/snapshot-${previousLatestBuild} ${diffpath}/snapshot-${installedBuildID} >> ${fs.realpathSync(
-//     __dirname + '/'
-//   )}/diff_${installedBuildID}_${previousLatestBuild}.txt`,
-//   () => {
-//     console.log('Done');
-//     console.log(' ');
-//     console.log('Uploading to file.io');
-//     var yourscript = exec(
-//       `curl -F "file=@diff_${installedBuildID}_${previousLatestBuild}.txt" https://file.io/?expires=9999y`,
-//       (error, stdout, stderr) => {
-//         const json = JSON.parse(stdout);
-//         if (json.success) {
-//           console.log('> ' + json.link);
-//           generateRedditCode(json.link, installedBuildID, previousLatestBuild);
-//         } else {
-//           console.log(json);
-//         }
+console.log('Running the command:');
 
-//         if (error !== null) {
-//           console.log(`exec error: ${error}`);
-//         }
-//       }
-//     );
-//   }
-// );
+const command = `diff -r --ignore-file-name-case ${SETTINGS.SNAPSHOT_SAVE_PATH}/snapshot-${OldBuild} ${
+  SETTINGS.SNAPSHOT_SAVE_PATH
+}/snapshot-${NewBuild}`;
+
+console.log(command);
+
+let output = '';
+
+// What the actual fuck
+try {
+  exec(command, { encoding: 'utf8' });
+} catch (err) {
+  output = err.stdout;
+}
+
+// Trim down the output by removeing unneeded filepath
+output = output.replace(new RegExp(SETTINGS.SNAPSHOT_SAVE_PATH, 'g'), '');
+
+console.log('================================');
+
+console.log(`Saving results to ${SETTINGS.DIFF_RESULTS_SAVE_PATH}${filename}`);
+
+fs.writeFileSync(SETTINGS.DIFF_RESULTS_SAVE_PATH + '/' + filename, output, { encoding: 'utf8' });
+
+console.log('================================');
+
+console.log(`Uploading ${filename} to Ge.tt`);
+
+diffLink = Gett(filename);
 
 console.log('================================');
 
@@ -114,15 +119,24 @@ for (let i = 0; i < SETTINGS.SNAPSHOT_SAVE_EXTENSIONS.length; i++) {
   if (SETTINGS.SNAPSHOT_SAVE_EXTENSIONS[SETTINGS.SNAPSHOT_SAVE_EXTENSIONS.length - 1] == ext) {
     str += 'and "\\*.' + ext + '"';
   } else {
-    str += '"\\*.' + ext + '" ';
+    if (SETTINGS.SNAPSHOT_SAVE_EXTENSIONS[SETTINGS.SNAPSHOT_SAVE_EXTENSIONS.length - 2] == ext) {
+      str += '"\\*.' + ext + '" ';
+    } else {
+      str += '"\\*.' + ext + '", ';
+    }
   }
 }
 
 Reddit({
   NewBuild,
+  NewVersion,
   OldBuild,
-  diffLink: 'http://difflink',
+  OldVersion,
+  diffLink,
   extraLink: 'http://extralink',
   removedLink: 'http://removedlink',
   exts: str,
 });
+
+console.log('================================');
+console.log('All done :)');
